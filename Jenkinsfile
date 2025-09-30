@@ -1,8 +1,8 @@
 pipeline {
-  agent any
-
-  environment {
-    DOTNET_CLI_HOME = "/usr/share/dotnet" // path for Linux agents (adjust if needed)
+  agent {
+    docker {
+      image 'mcr.microsoft.com/dotnet/sdk:8.0'  // official .NET SDK image
+    }
   }
 
   stages {
@@ -15,13 +15,8 @@ pipeline {
     stage('Build') {
       steps {
         echo 'Building the project...'
-        script {
-          echo 'restoring dotnet...'
-          sh "dotnet restore"
-
-          echo 'build app'
-          sh "dotnet build --configuration Release"
-        }
+        sh "dotnet restore"
+        sh "dotnet build --configuration Release"
       }
     }
 
