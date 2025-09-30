@@ -1,7 +1,8 @@
 pipeline {
   agent any
+
   environment {
-  DOTNET_CLI_HOME = "C:\\Program Files\\dotnet"
+    DOTNET_CLI_HOME = "C:\\Program Files\\dotnet"
   }
 
   stages {
@@ -10,8 +11,7 @@ pipeline {
         checkout scm
       }
     }
-  
-  stages {
+
     stage('Build') {
       steps {
         echo 'Building the project...'
@@ -22,15 +22,16 @@ pipeline {
           echo 'build app'
           bat "dotnet build --configuration Release"
         }
-        
       }
     }
+
     stage('Test') {
       steps {
         echo 'Running tests...'
-        
+        // You can add: bat "dotnet test --no-build --configuration Release"
       }
     }
+
     stage('Deploy') {
       steps {
         echo 'Deploying application...'
@@ -38,9 +39,10 @@ pipeline {
       }
     }
   }
-    post {
-      success {
+
+  post {
+    success {
       echo 'SUCCESS!'
-      }
     }
+  }
 }
